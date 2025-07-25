@@ -1,103 +1,107 @@
-import Image from "next/image";
+'use client'
+/* eslint-disable @next/next/no-img-element */
+import ActivityCard from '@/components/atoms/activityCard';
+import Icon from '@/components/icon';
+import Layout from '@/components/layout';
+import Image from 'next/image';
+import { HiArrowRight, HiOutlineCalendar } from 'react-icons/hi2';
+import { RiSettings4Line } from 'react-icons/ri';
+import React, { useState } from 'react';
+import Flight from '@/components/flight';
+import Hotels from '@/components/hotels';
+import Attraction from '@/components/attraction';
+import { useCombinedSearch } from './util/hooks';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const [search, setSearch] = useState('')
+  const { data, isFetching, error, refetch } = useCombinedSearch(search);
+
+  const handleSearch = () => {
+    if (search.length > 1) refetch(); 
+  };
+
+  console.log(data, isFetching, error, refetch)
+
+  return (
+    <Layout setSearch={setSearch} search={search} handleSearch={handleSearch}>
+      <div className="space-y-6">
+        <div className='relative'>
+          <img alt='banner' src={`/images/banner.png`} className='w-full' />
+          <button className='p-2 bg-[#FFFFFF33] shadow-sm rounded-sm absolute top-4 left-4'>
+            <Icon name={'leftArrow'} size='24' />
+          </button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+        {/* Header Section */}
+        <div className='md:flex justify-between space-y-2'>
+          <div className="">
+            <p className="text-sm font-medium text-[#7A4504] flex gap-1 items-center bg-[#FEF4E6] py-2 px-3 w-fit ">
+              <HiOutlineCalendar /> 23 March 2024 <HiArrowRight /> 2 April 2024
+            </p>
+            <h1 className="text-2xl font-bold">Bahamas Family Trip</h1>
+            <p className="text-base font-medium text-gray-500">New York, United States of America | Solo Trip</p>
+          </div>
+          <div className='space-y-4'>
+            <div className="flex gap-3 items-center">
+              <button className='p-4 rounded-sm bg-[#E7F0FF] w-40 flex justify-center'>
+                <Icon name={'userplus'} size='20' />
+              </button>
+              <span>
+                <Icon name={'threedot'} size='32' />
+              </span>
+            </div>
+            <div className='flex gap-8 justify-center'>
+              <Image src='/images/user.png' alt='user' width={40} height={40} className='rounded-full p-1 bg-[#E7F0FF]' />
+              <button className='p-3 rounded-full bg-[#E7F0FF] shadow-white shadow-sm'>
+                <RiSettings4Line size={16} />
+              </button>
+            </div>
+          </div>
+          
+        </div>
+        <div className='md:flex gap-2 flex-wrap space-y-2 xl:space-y-0'>
+          <ActivityCard 
+            title='Activities'
+            description='Build, personalize, and optimize your itineraries with our trip planner.'
+            className="bg-[#000031] text-[#FFFFFF]"
+            btnStyle='bg-[#0D6EFD]'
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+          <ActivityCard 
+            title='Hotels'
+            description='Build, personalize, and optimize your itineraries with our trip planner.'
+            className="bg-[#E7F0FF] text-[#1D2433]"
+            btnStyle='bg-[#0D6EFD] text-white'
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
+          <ActivityCard 
+            title='Activities'
+            description='Build, personalize, and optimize your itineraries with our trip planner.'
+            className="bg-[#0D6EFD] text-[#FFFFFF]"
+            btnStyle='bg-[#FFFFFF] text-[#0D6EFD]'
           />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        </div>
+
+        <div className='py-10'>
+          <h2 className="text-xl font-semibold text-[#1D2433]">Trip itineraries</h2>
+          <p className='text-sm font-medium text-[#647995]'>Your trip itineraries are placed here</p>
+        </div>
+
+
+        {/* Flights Section */}
+        <section className=''>
+          <Flight />
+        </section>
+
+        {/* Hotels Section */}
+        <section>
+          <Hotels />
+        </section>
+
+        {/* Activities Section */}
+
+        <section>
+          <Attraction />
+        </section>
+      </div>
+    </Layout>
   );
 }
