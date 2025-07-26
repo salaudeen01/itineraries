@@ -56,7 +56,8 @@ const  Hotels = () => {
             label2='Check out'
            />
         </div>
-        {data?.data?.hotels?.map((e:dataProps)=>(
+        {data?.data?.hotels?.length === 0 ?
+        data?.data?.hotels?.map((e:dataProps)=>(
           <div key={e?.hotel_id} className='bg-white rounded-t-md py-6 mt-5 flex flex-wrap xl:flex-nowrap items-center'>
             <div className='xl:pl-6 px-3'>
               <img src={'/images/pix.png'} alt='picture' className='w-58 object-cover' />
@@ -119,7 +120,18 @@ const  Hotels = () => {
               </div>
             </div>
           </div>
-        ))}
+        )):
+
+        <div className='bg-white rounded-t-md py-6 mt-5 flex justify-center items-center'>
+          <div>
+            <img src={`/images/hotel.png`} alt='empty' className='mx-auto' />
+            <p className='font-medium text-base text-center py-2'>No Resquest yet</p>
+            <button className='md:w-38 w-34 text-[#fff] rounded-sm font-semibold text-sm p-3 bg-[#0D6EFD]'>
+              Add Hotels
+            </button>
+          </div>
+        </div>
+      }
       </div>
     </div>
   )
